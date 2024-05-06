@@ -32,9 +32,9 @@ for number in range(9):
     # 이 경우에는 함수의 return값이 없으므로 command에는 아무것도 담기지 않음
 '''
 
-def create_button(text, row, column, command, width=13, height=9, columnspan=1, rowspan=1, bg=None):
-   button = tkt.Button(root, text=text, padx=width, pady=height, command=command)
-   button.grid(row=row, column=column, columnspan=columnspan, rowspan=rowspan, sticky='nsew') 
+def create_button(text, row, column, command, width=15, height=2, columnspan=1, bg='gainsboro', borderwidth=5):
+    button = tkt.Button(root, text=text, padx=width, pady=height, command=command, borderwidth=borderwidth, bg=bg)
+    button.grid(row=row, column=column, columnspan=columnspan, sticky='nsew')
 
 for number in range(9):
     create_button(str(number + 1), 4-number//3, number%3, lambda n=number+1: on_click(n)) #, bg='gainsboro')
@@ -50,11 +50,11 @@ def operate(operator):
     global first_num
     global 연산자
     연산자 = operator
-    first_num = int(entry.get())
+    first_num = float(entry.get())
     entry.delete(0, tkt.END)
 
 def on_equal():
-    second_num = int(entry.get())
+    second_num = float(entry.get())
     entry.delete(0, tkt.END)
 
     if 연산자 == "+":
@@ -65,11 +65,12 @@ def on_equal():
         entry.insert(0, first_num * second_num)
     elif 연산자 == "/":
         entry.insert(0, first_num / second_num)
-        
+    elif 연산자 == "%":
+        entry.insert(0, first_num % second_num)
  
 
 
-create_button("%", 1, 2, None, bg='gray70')
+create_button("%", 1, 2, lambda: operate("%"), bg='gray70')
 create_button("/", 1, 3, lambda: operate("/"), bg='gray70')
 create_button("*", 2, 3, lambda: operate("*"), bg='gray70')
 create_button("-", 3, 3, lambda: operate("-"), bg='gray70')
@@ -80,5 +81,3 @@ create_button("=", 5, 3, on_equal, bg='orange')
 root.mainloop()
 
 # 소수점 계산 할수있게 구현하기 나머지 연산 버튼 테두리 있어보이게 만들기
-
-#오픈소스 소프트웨어 과제 git diff 함수를 통한 변경 내역 비교
