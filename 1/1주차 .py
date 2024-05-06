@@ -1,4 +1,4 @@
-
+ 
 '''
 root = tkt.Tk()
 root.title("이름")
